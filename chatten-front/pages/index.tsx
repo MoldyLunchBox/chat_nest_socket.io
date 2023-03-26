@@ -16,19 +16,31 @@ export default function Home() {
   const send = (value: string, nickName: string) => {
     socket?.emit("message", { nickName, value })
   }
-  useEffect(()=>{
-    const socket = io("http://localhost:8001");
-    setSocket(socket)
-  },[setSocket])
-
-  const messageListener = (message: string)=>{
+  const sendNewCatter = (nickName: string) => {
+    socket?.emit("newChatter", { nickName })
+  }
+  const messageListener = (message: string) => {
     setMessages([...messages, message])
   }
+  const newChatterListener = (newChatter: string) => {
+    console.log("new chatter arrived")
+    setMessages([...messages, newChatter])
+  }
 
-  useEffect(()=>{
+  useEffect(() => {
+    const socket = io("http://localhost:8001");
+    setSocket(socket)
+  }, [setSocket])
+
+useEffect(()=>{
+ socket?.on("newChatter", newChatterListener)
+    return () => { socket?.off("newChatter", newChatterListener) }
+},[newChatterListener])
+  
+  useEffect(() => {
     socket?.on("message", messageListener)
-    return() => {socket?.off("message", messageListener)}
-  },[messageListener])
+    return () => { socket?.off("message", messageListener) }
+  }, [messageListener])
   return (
     <>
       <Head>
@@ -37,17 +49,20 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <main>
+      <main>
         <div className="relative flex h-screen w-screen flex-col bg-black md:items-center
-    md:justify-center md:bg-transparent">
-      <div className="relative mt-20 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14">
-
-        <Messages  messages={messages}/>
-        <MessageInput send={send} nickName={nickName}/>
-        <NickName setNickName={setNickName}/>
-         </div>
-         </div>
-        </main>
+                        md:justify-center md:bg-transparent">
+          <div className="relative mt-20 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14">
+            { nickName.length > 0 &&
+              <>
+                <Messages messages={messages} />
+                <MessageInput send={send} nickName={nickName} />
+              </>
+            }
+            { !nickName.length && <NickName sendNewCatter={sendNewCatter} setNickName={setNickName} /> }
+          </div>
+        </div>
+      </main>
     </>
   )
 }

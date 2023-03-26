@@ -8,11 +8,15 @@ function MessageInput({nickName , send}:Props ) {
   const handleChange = (e:any) =>{
     setValue(e.target.value)
   }
+  const handleSend = () =>{
+    send(value, nickName)
+    setValue("")
+  }
   return (
-    <div >
-      <input onChange={handleChange} type="text" placeholder="type your message"  value={value}
-      className="w-full rounded bg-[#333] px-5 py-3.5 placeholder-[gray] outline-none focus:bg-white;"/>
-      <button onClick={()=>send(value, nickName)}> send</button>
+    <div className="flex border border-[#414141] rounded-b">
+      <textarea onChange={handleChange}  placeholder="type your messaged"  value={value}
+      className="w-full h-auto text-white/75  bg-[#333] px-5 py-3.5 placeholder-[gray] outline-none focus:bg-white;"/>
+      <button onClick={handleSend} className="text-white bg-[#414141] p-2  text-semibold"> Send</button>
     </div>
   )
 }

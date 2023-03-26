@@ -11,4 +11,10 @@ export class ChatGateway{
         console.log(data)
         this.server.emit('message', `${nickName}: ${value}`);
     }
+    @SubscribeMessage('newChatter')
+    handleNewChatter(@MessageBody() data: { nickName: string}) : void {
+        const { nickName } = data;
+        console.log(data)
+        this.server.emit('newChatter', `${nickName} joined the chat`);
+    }
 }
