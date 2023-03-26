@@ -1,7 +1,15 @@
 
-function Messages() {
+interface Props{
+  messages: string[]
+}
+function Messages({messages}:Props) {
   return (
-    <div>Messages</div>
+ <>
+    {messages.map((msg, index)=>
+    <div key={index}>{msg}</div>
+    )}
+   
+    </>
   )
 }
 

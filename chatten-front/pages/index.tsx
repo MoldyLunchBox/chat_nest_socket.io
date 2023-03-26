@@ -4,21 +4,31 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useState, useEffect } from 'react'
 import io, { Socket } from "socket.io-client";
+import Messages from '@/components/Messages'
+import MessageInput from '@/components/MessageInput'
+import NickName from '@/components/NickName'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [socket, setSocket] = useState<Socket>()
-  const [messages, setMessages] = useState<string[]>()
-  const handleSubmit = (value: string) => {
-    socket?.emit("message", value)
+  const [messages, setMessages] = useState<string[]>([])
+  const [nickName, setNickName] = useState<string>("")
+  const send = (value: string, nickName: string) => {
+    socket?.emit("message", { nickName, value })
   }
   useEffect(()=>{
     const socket = io("http://localhost:8001");
     setSocket(socket)
   },[setSocket])
+
   const messageListener = (message: string)=>{
-    setMessages([])
+    setMessages([...messages, message])
   }
+
+  useEffect(()=>{
+    socket?.on("message", messageListener)
+    return() => {socket?.off("message", messageListener)}
+  },[messageListener])
   return (
     <>
       <Head>
@@ -28,7 +38,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
         <main>
+        <div className="relative flex h-screen w-screen flex-col bg-black md:items-center
+    md:justify-center md:bg-transparent">
+      <div className="relative mt-20 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14">
 
+        <Messages  messages={messages}/>
+        <MessageInput send={send} nickName={nickName}/>
+        <NickName setNickName={setNickName}/>
+         </div>
+         </div>
         </main>
     </>
   )

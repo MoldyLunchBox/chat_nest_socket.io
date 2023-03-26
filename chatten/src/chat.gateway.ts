@@ -6,8 +6,9 @@ export class ChatGateway{
     server;
 
     @SubscribeMessage('message')
-    handleMessage(@MessageBody() message: string) : void {
-        console.log(message)
-        this.server.emit('message', message)
+    handleMessage(@MessageBody() data: { nickName: string, value: string}) : void {
+        const { nickName, value } = data;
+        console.log(data)
+        this.server.emit('message', `${nickName}: ${value}`);
     }
 }
