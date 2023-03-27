@@ -1,6 +1,7 @@
 import { WebSocketGateway, MessageBody, SubscribeMessage, WebSocketServer } from "@nestjs/websockets";
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: { origin: 'https://chat-nest-socket-front.vercel.app' } })
+
 export class ChatGateway{
     @WebSocketServer()
     server;
