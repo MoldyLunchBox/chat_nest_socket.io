@@ -7,6 +7,9 @@ import { WsAdapter } from '@nestjs/platform-ws';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useWebSocketAdapter(new WsAdapter(app));
+  app.enableCors({
+    origin: 'https://chat-nest-socket-front.vercel.app'
+  });
   await app.listen(parseInt(process.env.PORT) || 3000);
 }
 bootstrap();
