@@ -17,5 +17,8 @@
                 "DELETE"
             ]
         }
-    ]
+    ],
+    "listen": [
+        { "port": 8001, "headers": { "Access-Control-Allow-Origin": "*" } }
+      ]
 }
