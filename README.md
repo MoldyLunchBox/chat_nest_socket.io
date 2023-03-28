@@ -1,7 +1,7 @@
 ## Chat App With Nest.js + Socket.io
 
 #backend:
-`
+```
 npm i  @nestjs/cli
 
 npx nest new project-name
@@ -9,14 +9,14 @@ npx nest new project-name
 npm i --save @nestjs/websockets @nestjs/platform-socket.io
 
 npm i --save @types/socket.io
-`
+```
 
 #frontend:  https://socket.io/docs/v4/client-installation/
 
-`
+```
 npm install socket.io-client
 
-`
+```
 
 # problems i run into
 
