@@ -11,7 +11,9 @@ npm i --save @nestjs/websockets @nestjs/platform-socket.io
 npm i --save @types/socket.io
 ```
 
-# frontend:  https://socket.io/docs/v4/client-installation/
+# frontend:  
+
+source: https://socket.io/docs/v4/client-installation/
 
 ```
 npm install socket.io-client
