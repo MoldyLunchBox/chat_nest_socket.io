@@ -28,7 +28,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const socket = io("wss://chat-nest-socket-backend.vercel.app");
+    const socket = io("http://localhost:3004");
     setSocket(socket)
   }, [setSocket])
 

@@ -1,6 +1,6 @@
 import { WebSocketGateway, MessageBody, SubscribeMessage, WebSocketServer } from "@nestjs/websockets";
 
-@WebSocketGateway({cors: '*'})
+@WebSocketGateway(3004, {cors: "*"})
 export class ChatGateway{
     @WebSocketServer()
     server;
